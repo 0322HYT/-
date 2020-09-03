@@ -22,13 +22,20 @@ public:
     ~MainWindow();
 
     void paintEvent(QPaintEvent *);
+    void mousePressEvent(QMouseEvent *mouseEvent);
 
+
+
+    int gridW;  //棋盘水平方向一个格子的宽度
+    int gridH;  //棋盘水平方向一个格子的高度
+    int startX; //棋盘起点x坐标
+    int startY; //棋盘起点y坐标
 
 
     int xPressed;
     int yPressed;
     int numCounts;
-    int counts[81][3];
+    int counts[400][3];
    int checkBoard[19][19];
 private:
     Ui::MainWindow *ui;
