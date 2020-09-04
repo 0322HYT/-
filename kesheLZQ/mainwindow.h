@@ -2,12 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMainWindow>
 #include <QPainter>
-#include <QPen>
-#include <QBrush>
+#include <QPoint>
 #include <QMouseEvent>
-#include <QDebug>
 #include <QMessageBox>
+#include <QDebug>
 
 namespace Ui {
 class MainWindow;
@@ -21,24 +21,31 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void paintEvent(QPaintEvent *);
-    void mousePressEvent(QMouseEvent *mouseEvent);
+void paintEvent(QPaintEvent *); // 画棋谱
+    // 实际落子
+void mouseReleaseEvent(QMouseEvent *event);
 
+void checkWin(int x,int y);
+void winShow(int colorCenter);
 
-
-    int gridW;  //棋盘水平方向一个格子的宽度
-    int gridH;  //棋盘水平方向一个格子的高度
-    int startX; //棋盘起点x坐标
-    int startY; //棋盘起点y坐标
-
-
-    int xPressed;
-    int yPressed;
-    int numCounts;
-    int counts[400][3];
-   int checkBoard[19][19];
+void tie();
 private:
     Ui::MainWindow *ui;
+    int game_flag;
+
+    const int width=20;        //棋谱宽度
+    const int height=20;       //棋谱高度
+    int chess[20][20]={};
+    int distance=40;    //线段距离
+    int start_x=20;     //起始坐标
+    int start_y=20;
+
+    int radius=18;  //棋子半径
+    int color_flag;
+    int win_flag;
+    int source[15][15]={};
+int numCounts;
+
 };
 
 #endif // MAINWINDOW_H
