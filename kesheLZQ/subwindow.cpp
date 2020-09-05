@@ -2,40 +2,37 @@
 
 SubWindow::SubWindow(QWidget *parent) : QMainWindow(parent)
 {
-this->setWindowTitle("小弟");
-    this->setMaximumSize(800,800);
-    this->setMinimumSize(800,800);
+    setWindowTitle("游戏界面");
+    setMaximumSize(800,800);
+    setMinimumSize(800,800);
 
-this->numCounts = 0;
-    game_flag=0;
-    win_flag=0;
-
-    color_flag=1;
+    chessnumber = 0;
+    chesscolor=1;
 }
 void SubWindow::paintEvent(QPaintEvent *)
 {
-    QPainter painter(this);
+    QPainter p(this);
     //画棋谱
-    painter.setPen(QPen(Qt::red,2));//设置画笔形式
-    for(int j=0;j<width;j++)    //划横线
-        painter.drawLine(start_x,start_y+j*distance,(height-1)*distance+start_x,j*distance+start_y);
-    for(int i=0;i<height;i++)    //画竖线
-        painter.drawLine(start_x+i*distance,start_y,i*distance+start_x,(width-1)*distance+start_y);
+    p.setPen(QPen(Qt::red,2));//设置画笔形式
+    for(int j=0;j<width;j++)
+        p.drawLine(startX,startY+j*distance,(height-1)*distance+startX,j*distance+startY);
+    for(int i=0;i<height;i++)
+        p.drawLine(startX+i*distance,startY,i*distance+startX,(width-1)*distance+startY);
     //画棋子
-    painter.setPen(QPen(Qt::black,2));//设置画笔形式
+    p.setPen(QPen(Qt::black,2));//设置画笔形式
     for(int i=0;i<width;i++)
     {
         for(int j=0;j<height;j++)
         {
             if(chess[i][j]==1)
             {
-                painter.setBrush(Qt::black);
-                painter.drawEllipse(start_x-radius+i*distance,start_y-radius+j*distance,radius*2,radius*2);
+                p.setBrush(Qt::black);
+                p.drawEllipse(startX-radius+i*distance,startY-radius+j*distance,radius*2,radius*2);
             }
             else if(chess[i][j]==2)
             {
-                painter.setBrush(Qt::white);
-                painter.drawEllipse(start_x-radius+i*distance,start_y-radius+j*distance,radius*2,radius*2);
+                p.setBrush(Qt::white);
+                p.drawEllipse(startX-radius+i*distance,startY-radius+j*distance,radius*2,radius*2);
             }
         }
     }}
@@ -45,21 +42,21 @@ void SubWindow::mouseReleaseEvent(QMouseEvent *event)
 
         int x=event->x();
         int y=event->y();
-        int chess_x=(x-start_x+radius)/distance;
-        int chess_y=(y-start_y+radius)/distance;
+        int chess_x=(x-startX+radius)/distance;
+        int chess_y=(y-startY+radius)/distance;
         if(chess[chess_x][chess_y] != 0)
             return;
-        if(color_flag == 1)
+        if(chesscolor == 1)
         {
             chess[chess_x][chess_y]=1;
-            color_flag=2;
-            this->numCounts += 1;//棋子数目加一
+            chesscolor=2;
+            chessnumber += 1;//棋子数目加一
         }
-        else if(color_flag == 2)
+        else if(chesscolor == 2)
         {
             chess[chess_x][chess_y]=2;
-            color_flag=1;
-            this->numCounts += 1;//棋子数目加一
+            chesscolor=1;
+            chessnumber += 1;//棋子数目加一
         }
         checkWin(chess_x,chess_y);
         update();
@@ -166,9 +163,9 @@ void SubWindow::checkWin(int x, int y)
     {
         winShow(colorCenter);
     }
-    else if(numCounts==200)
+    else if(chessnumber==200)
     {
-        tie();
+        heqi();
     }}
 
 void SubWindow::winShow(int colorCenter)
@@ -176,13 +173,13 @@ void SubWindow::winShow(int colorCenter)
     QString infoShow;
     if(colorCenter == 1)//中心点是黑色
     {
-        infoShow = "Black Win!";
+        infoShow = "黑棋胜利!";
     }
     else if(colorCenter == 2)
     {
-        infoShow = "White Win!";
+        infoShow = "白棋胜利!";
     }
-    if(QMessageBox::information(NULL,"Game Over",infoShow,"Again","Exit")==1)
+    if(QMessageBox::information(NULL,"游戏结束",infoShow,"再来一次","退出")==1)
     {
         close();
     }
@@ -193,12 +190,12 @@ void SubWindow::winShow(int colorCenter)
             this->chess[i][j]=0;
         }
     }
-    this->color_flag = 1;//下子数目为0，即下一个子从黑子开始
+    chesscolor = 1;//下子数目为0，即下一个子从黑子开始
 }
 
-void SubWindow::tie()
+void SubWindow::heqi()
 {
-    if(QMessageBox::information(NULL,"Game Over","Tie","Again","Exit")==1)
+    if(QMessageBox::information(NULL,"游戏结束","和棋","再来一次","退出")==1)
     {
         close();
     }
@@ -209,6 +206,6 @@ void SubWindow::tie()
             this->chess[i][j]=0;
         }
     }
-    this->color_flag = 1;//下子数目为0，即下一个子从黑子开始
+   chesscolor = 1;//下子数目为0，即下一个子从黑子开始
 }
 

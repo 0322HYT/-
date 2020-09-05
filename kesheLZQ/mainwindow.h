@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include<QPushButton>
+#include <QPainter>
 #include"subwindow.h"
 namespace Ui {
 class MainWindow;
@@ -15,6 +16,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void paintEvent(QPaintEvent *);
 void changeWind();
 
 private:
