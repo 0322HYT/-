@@ -2,13 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMainWindow>
-#include <QPainter>
-#include <QPoint>
-#include <QMouseEvent>
-#include <QMessageBox>
-#include <QDebug>
-
+#include<QPushButton>
+#include"subwindow.h"
 namespace Ui {
 class MainWindow;
 }
@@ -20,31 +15,13 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+void changeWind();
 
-void paintEvent(QPaintEvent *); // 画棋谱
-    // 实际落子
-void mouseReleaseEvent(QMouseEvent *event);
-
-void checkWin(int x,int y);
-void winShow(int colorCenter);
-
-void tie();
 private:
     Ui::MainWindow *ui;
-    int game_flag;
+    QPushButton b3;
+    SubWindow w;
 
-    const int width=20;        //棋谱宽度
-    const int height=20;       //棋谱高度
-    int chess[20][20]={};
-    int distance=40;    //线段距离
-    int start_x=20;     //起始坐标
-    int start_y=20;
-
-    int radius=18;  //棋子半径
-    int color_flag;
-    int win_flag;
-    int source[15][15]={};
-int numCounts;
 
 };
 
