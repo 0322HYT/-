@@ -3,8 +3,8 @@
 SubWindow::SubWindow(QWidget *parent) : QMainWindow(parent)
 {
     setWindowTitle("游戏界面");
-    setMaximumSize(800,800);
-    setMinimumSize(800,800);
+    setMaximumSize(830,830);
+    setMinimumSize(830,830);
 
     chessnumber = 0;
     chesscolor=1;
@@ -13,7 +13,8 @@ void SubWindow::paintEvent(QPaintEvent *)
 {
     QPainter p(this);
     //画棋谱
-    p.setPen(QPen(Qt::red,2));//设置画笔形式
+    p.drawPixmap(0,0,830,830,QPixmap("../tu/005.jpg"));
+    p.setPen(QPen(Qt::black,2));//设置画笔形式
     for(int j=0;j<width;j++)
         p.drawLine(startX,startY+j*distance,(height-1)*distance+startX,j*distance+startY);
     for(int i=0;i<height;i++)
@@ -163,7 +164,7 @@ void SubWindow::checkWin(int x, int y)
     {
         winShow(colorCenter);
     }
-    else if(chessnumber==200)
+    else if(chessnumber==400)
     {
         heqi();
     }}
@@ -190,7 +191,7 @@ void SubWindow::winShow(int colorCenter)
             this->chess[i][j]=0;
         }
     }
-    chesscolor = 1;//下子数目为0，即下一个子从黑子开始
+    chesscolor = 1;//下一个子从黑子开始
 }
 
 void SubWindow::heqi()
@@ -206,6 +207,6 @@ void SubWindow::heqi()
             this->chess[i][j]=0;
         }
     }
-   chesscolor = 1;//下子数目为0，即下一个子从黑子开始
+   chesscolor = 1;//下一个子从黑子开始
 }
 
