@@ -1,19 +1,39 @@
 #include "subwindow.h"
-
+#include<QPushButton>
 SubWindow::SubWindow(QWidget *parent) : QMainWindow(parent)
 {
     setWindowTitle("游戏界面");
-    setMaximumSize(830,830);
-    setMinimumSize(830,830);
+    setMaximumSize(1000,830);
+    setMinimumSize(1000,830);
 
     chessnumber = 0;
     chesscolor=1;
+    b4.setParent(this);
+    b4.setText("重新开始");
+    b4.move(840,100);
+    b4.resize(150,50);
+    connect(&b4,&QPushButton::released,this,&SubWindow::again);
+
+
+}
+
+
+void SubWindow::again(){
+    for(int i=0;i<20;i++)//清空棋盘
+    {
+        for(int j=0;j<20;j++)
+        {
+            this->chess[i][j]=0;
+        }
+    }
+    chesscolor = 1;//下子数目为0，即下一个子从黑子开始
+    update();
 }
 void SubWindow::paintEvent(QPaintEvent *)
 {
     QPainter p(this);
     //画棋谱
-    p.drawPixmap(0,0,830,830,QPixmap("../tu/005.jpg"));
+    p.drawPixmap(0,0,830,830,QPixmap("../tu/007.jfif"));
     p.setPen(QPen(Qt::black,2));//设置画笔形式
     for(int j=0;j<width;j++)
         p.drawLine(startX,startY+j*distance,(height-1)*distance+startX,j*distance+startY);
@@ -41,27 +61,30 @@ void SubWindow::mouseReleaseEvent(QMouseEvent *event)
     {
 
 
-        int x=event->x();
-        int y=event->y();
-        int chess_x=(x-startX+radius)/distance;
-        int chess_y=(y-startY+radius)/distance;
-        if(chess[chess_x][chess_y] != 0)
+        x=event->x();
+        y=event->y();
+        chessX=(x-startX+radius)/distance;
+        chessY=(y-startY+radius)/distance;
+
+        if(chess[chessX][chessY] != 0)
             return;
         if(chesscolor == 1)
         {
-            chess[chess_x][chess_y]=1;
+            chess[chessX][chessY]=1;
             chesscolor=2;
             chessnumber += 1;//棋子数目加一
         }
         else if(chesscolor == 2)
         {
-            chess[chess_x][chess_y]=2;
+            chess[chessX][chessY]=2;
             chesscolor=1;
             chessnumber += 1;//棋子数目加一
         }
-        checkWin(chess_x,chess_y);
+
+        checkWin(chessX,chessY);
         update();
     }
+
 void SubWindow::checkWin(int x, int y)
 {
 

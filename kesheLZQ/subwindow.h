@@ -17,6 +17,7 @@ public:
     void checkWin(int x,int y);
     void winShow(int colorCenter);
     void heqi();
+    void again();
 
 private:
 
@@ -30,6 +31,9 @@ private:
     int radius=18;  //棋子半径
     int chesscolor;
     int chessnumber;
+    QPushButton b4;
+    int chessX,chessY;
+    int x,y;
 
 
 };
